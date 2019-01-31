@@ -1,3 +1,24 @@
-h1 {
-    text-align: right;
+
+
+.header_main {
+    width: 910px;
+    height: 300px;
+    margin: auto;
+}
+
+.inset {
+    border-style: inset;
+    padding: 5px;
+}
+
+form {width: 900px;}
+div.data-table {width: 900px;}
+
+.uk-margin, .uk-legend {
+    padding-left: 5%;
+}
+
+table.tr {
+    padding-left: 5%;
+    padding-right: 5%;
 }

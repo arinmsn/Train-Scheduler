@@ -2,35 +2,111 @@
 <html>
 <head>
     <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Page Title</title>
+
+    <title>Express Train Scheduler</title>
 
     <!-- Required for responsive page-->
     <meta name="viewport" content="width=device-width, initial-scale=1"> 
    
     <!-- UIkit CSS -->
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.3/css/uikit.min.css"/>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.3/css/uikit.min.css" />
 
     <!-- Our CSS -->
-    <link rel="stylesheet" type="text/css" media="screen" href="assets/css/styles.css"/>
+    <link rel="stylesheet" type="text/css" href="assets/css/styles.css" />
 
     <script src="assets/javascript/source.js"></script>
 </head>
-<body>
 
-    <div class="uk-cover-background uk-position-relative">
-        <img class="uk-invisible" src="" width="" height="" alt="">
-        <div class="uk-position-cover uk-flex uk-flex-center uk-flex-middle">Express Train Station</div>
+<body>
+    
+    <div class="container uk-align-center">
+
+
+        <div class="uk-height-medium uk-flex uk-flex-center uk-flex-middle uk-background-cover uk-light header_main"
+        data-src="assets/images/pexels-photo-258444-train-landscape.jpeg" uk-img>
+            <h1>Background Image</h1>
+        </div>
+
+        <!-- Data will be shown inside this table -->
+        <div class="inset uk-align-center data-table">
+        <table class="uk-table uk-table-justify uk-table-divider uk-table-hover uk-table-middle uk-table-responsive uk-width-*">
+            <thead>
+                <legend class="uk-legend">Current Train Schedules</legend>
+                
+                <tr>
+                    <th class="uk-width-small">Train Name</th>
+                    <th>Destination</th>
+                    <th>Frequency (mins.)</th>
+                    <th>Next Arrival</th>
+                    <th>Minutes Away</th>
+                </tr>
+            
+            </thead>
+            <tbody>
+
+                <tr>
+                    <td>Train000001</td>   <!-- Create some ID's ? -->
+                    <td>NYC</td>
+                    <td>45</td>
+                    <td>05:45 AM</td>
+                    <td>26</td>
+                    <td>
+                    <button class="uk-button uk-button-default" type="button" disabled>Update</button>
+                    <button class="uk-button uk-button-default" type="button" disabled>Remove</button>
+                    </td>
+                </tr> 
+                
+            </tbody>
+        </table>
+        </div>
+        <!-- End of table -->
+       
+        <!-- Form for user to input goes here-->
+        <form class="inset uk-form-stacked uk-align-center">
+                <fieldset class="uk-fieldset">
+            
+                    <legend class="uk-legend">Add Train's Info.</legend>
+                    
+                    <div class="uk-margin">
+                        <label class="uk-form-label" for="form-stacked-text">Train Name</label>
+                        <input class="uk-input uk-form-width-large" type="text" placeholder="">
+                    </div>
+                
+                    <div class="uk-margin">
+                    <label class="uk-form-label" for="form-stacked-text">Destination</label>
+                        <input class="uk-input uk-form-width-large" type="text" placeholder="">
+                    </div>
+                
+                    <div class="uk-margin">
+                    <label class="uk-form-label" for="form-stacked-text">First train time (in military time - HH:mm)</label>
+                        <input class="uk-input uk-form-width-large" type="text" placeholder="">
+                    </div>
+                
+                    <div class="uk-margin">
+                        <label class="uk-form-label" for="form-stacked-text">Frequency (in mins.)</label>
+                        <input class="uk-input uk-form-width-large" type="text" placeholder="">
+                    </div>
+            
+                </fieldset>
+        </form>
+
     </div>
 
+    <!-- End of user input form -->
+    
+
+
+    <br><br>
+
+
+
+
     <!-- jQuery JS -->
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js"
-    integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-    crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 
     <!-- UIkit JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.3/js/uikit.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.3/js/uikit-icons.min.js"></script>
-
 </body>
+
 </html>
