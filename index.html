@@ -8,8 +8,8 @@
     <!-- Required for responsive page-->
     <meta name="viewport" content="width=device-width, initial-scale=1"> 
    
-    <!-- UIkit CSS -->
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.3/css/uikit.min.css" />
+    <!-- Foundation's Compressed CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/foundation-sites@6.5.1/dist/css/foundation.min.css" integrity="sha256-1mcRjtAxlSjp6XJBgrBeeCORfBp/ppyX4tsvpQVCcpA= sha384-b5S5X654rX3Wo6z5/hnQ4GBmKuIJKMPwrJXn52ypjztlnDK2w9+9hSMBz/asy9Gw sha512-M1VveR2JGzpgWHb0elGqPTltHK3xbvu3Brgjfg4cg5ZNtyyApxw/45yHYsZ/rCVbfoO5MSZxB241wWq642jLtA==" crossorigin="anonymous">
 
     <!-- Our CSS -->
     <link rel="stylesheet" type="text/css" href="assets/css/styles.css" />
@@ -18,85 +18,108 @@
 </head>
 
 <body>
-    
-    <div class="container uk-align-center">
 
-
-        <div class="uk-height-medium uk-flex uk-flex-center uk-flex-middle uk-background-cover uk-light header_main"
-        data-src="assets/images/pexels-photo-258444-train-landscape.jpeg" uk-img>
-            <h1>Background Image</h1>
-        </div>
-
-        <!-- Data will be shown inside this table -->
-        <div class="inset uk-align-center data-table">
-        <table class="uk-table uk-table-justify uk-table-divider uk-table-hover uk-table-middle uk-table-responsive uk-width-*">
-            <thead>
-                <legend class="uk-legend">Current Train Schedules</legend>
-                
-                <tr>
-                    <th class="uk-width-small">Train Name</th>
-                    <th>Destination</th>
-                    <th>Frequency (mins.)</th>
-                    <th>Next Arrival</th>
-                    <th>Minutes Away</th>
-                </tr>
-            
-            </thead>
-            <tbody>
-
-                <tr>
-                    <td>Train000001</td>   <!-- Create some ID's ? -->
-                    <td>NYC</td>
-                    <td>45</td>
-                    <td>05:45 AM</td>
-                    <td>26</td>
-                    <td>
-                    <button class="uk-button uk-button-default" type="button" disabled>Update</button>
-                    <button class="uk-button uk-button-default" type="button" disabled>Remove</button>
-                    </td>
-                </tr> 
-                
-            </tbody>
-        </table>
-        </div>
-        <!-- End of table -->
-       
-        <!-- Form for user to input goes here-->
-        <form class="inset uk-form-stacked uk-align-center">
-                <fieldset class="uk-fieldset">
-            
-                    <legend class="uk-legend">Add Train's Info.</legend>
-                    
-                    <div class="uk-margin">
-                        <label class="uk-form-label" for="form-stacked-text">Train Name</label>
-                        <input class="uk-input uk-form-width-large" type="text" placeholder="">
-                    </div>
-                
-                    <div class="uk-margin">
-                    <label class="uk-form-label" for="form-stacked-text">Destination</label>
-                        <input class="uk-input uk-form-width-large" type="text" placeholder="">
-                    </div>
-                
-                    <div class="uk-margin">
-                    <label class="uk-form-label" for="form-stacked-text">First train time (in military time - HH:mm)</label>
-                        <input class="uk-input uk-form-width-large" type="text" placeholder="">
-                    </div>
-                
-                    <div class="uk-margin">
-                        <label class="uk-form-label" for="form-stacked-text">Frequency (in mins.)</label>
-                        <input class="uk-input uk-form-width-large" type="text" placeholder="">
-                    </div>
-            
-                </fieldset>
-        </form>
-
+    <div class="container_header">
+        <img src="./assets/images/pexels-photo-258444-train-landscape.jpeg" alt="Train in far landscape">
+        <h2><div class="centered">Magical Train Station</div></h2>
     </div>
 
-    <!-- End of user input form -->
+        <!-- image has padding -->
+    <div class="card">
+            
+        <div class="card-divider">
+            <h4>Current Train Schedules</h4>
+        </div> 
+        
+        <div class="card-section">
+            <table class="scroll">
+                <thead>
+                    <tr>
+                    <th width="300">Train Name</th>
+                    <th width="300">Destination</th>
+                    <th width="100">Frequency (mins.)</th>
+                    <th width="100">Next Arrival</th>
+                    <th width="100">Minutes Away</th>
+                    <th width="200">Update Train's Info</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                    <td>1</td>
+                    <td>2 HDHDHD HDSLJDLFKSJF</td>
+                    <td>45</td>
+                    <td>1:20 PM</td>
+                    <td>5</td>
+                    <td width="200">
+                        <div class="stacked-for-medium button-group">
+                        <a class="button">Update</a>
+                        <a class="button">Remove</a>
+                        </div>
+                    </td>
+                    </tr>
+                    
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+
+
+
+        <!-- image has padding -->
+    <div class="card">
+        <div class="card-divider">
+                <h4>Add Train's Info</h4>
+        </div>
+        <div class="card-section">
+          
     
+            <form>
+                <div class="grid-x grid-padding-x">
+                    <div class="small-3 cell">
+                    <label for="right-label" class="text-right">Train Name</label>
+                    </div>
+                    <div class="small-9 cell">
+                    <input type="text" id="right-label" placeholder="Right-aligned text input">
+                    </div>
+                </div>
 
+                <div class="grid-x grid-padding-x">
+                    <div class="small-3 cell">
+                    <label for="right-label" class="text-right">Destination</label>
+                    </div>
+                    <div class="small-9 cell">
+                    <input type="text" id="right-label" placeholder="Right-aligned text input">
+                    </div>
+                </div>
 
-    <br><br>
+                <div class="grid-x grid-padding-x">
+                    <div class="small-3 cell">
+                    <label for="right-label" class="text-right">First train time</label>
+                    </div>
+                    <div class="small-9 cell">
+                    <input type="text" id="right-label" placeholder="Right-aligned text input" aria-describedby="firstTrainHelpText">
+                    <p class="help-text" id="firstTrainHelpText">(in military time - HH:mm)</p>
+                </div>
+                </div>
+
+                <div class="grid-x grid-padding-x">
+                    <div class="small-3 cell">
+                    <label for="right-label" class="text-right">Frequency (in mins.)</label>
+                    </div>
+                    <div class="small-9 cell">
+                    <input type="text" id="right-label" placeholder="Right-aligned text input">
+                    </div>
+                </div>
+
+                <a class="button submitButton" type="submit" href="#">Submit</a>
+        
+            </form>
+
+        </div>
+    </div>
+        
+    
 
 
 
@@ -104,9 +127,8 @@
     <!-- jQuery JS -->
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 
-    <!-- UIkit JS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.3/js/uikit.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.3/js/uikit-icons.min.js"></script>
+    <!-- Compressed JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/foundation-sites@6.5.1/dist/js/foundation.min.js" integrity="sha256-WUKHnLrIrx8dew//IpSEmPN/NT3DGAEmIePQYIEJLLs= sha384-53StQWuVbn6figscdDC3xV00aYCPEz3srBdV/QGSXw3f19og3Tq2wTRe0vJqRTEO sha512-X9O+2f1ty1rzBJOC8AXBnuNUdyJg0m8xMKmbt9I3Vu/UOWmSg5zG+dtnje4wAZrKtkopz/PEDClHZ1LXx5IeOw==" crossorigin="anonymous"></script>
 </body>
 
 </html>
