@@ -4,29 +4,42 @@
     <meta charset="utf-8" />
 
     <title>Express Train Scheduler</title>
-
     <!-- Required for responsive page-->
     <meta name="viewport" content="width=device-width, initial-scale=1"> 
+
     
     <!-- Firebase JS -->
-    <script src="https://www.gstatic.com/firebasejs/5.8.2/firebase-.js"></script>
-   
-    <!-- Foundation's Compressed CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/foundation-sites@6.5.1/dist/css/foundation.min.css" integrity="sha256-1mcRjtAxlSjp6XJBgrBeeCORfBp/ppyX4tsvpQVCcpA= sha384-b5S5X654rX3Wo6z5/hnQ4GBmKuIJKMPwrJXn52ypjztlnDK2w9+9hSMBz/asy9Gw sha512-M1VveR2JGzpgWHb0elGqPTltHK3xbvu3Brgjfg4cg5ZNtyyApxw/45yHYsZ/rCVbfoO5MSZxB241wWq642jLtA==" crossorigin="anonymous">
+    <script src="https://www.gstatic.com/firebasejs/5.8.2/firebase.js"></script> 
 
-    <!-- Our CSS -->
-    <link rel="stylesheet" type="text/css" href="assets/css/styles.css" />
+
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="crossorigin="anonymous"></script>
+ 
+    
+    <!-- Foundation's JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/foundation-sites@6.5.1/dist/js/foundation.min.js" integrity="sha256-WUKHnLrIrx8dew//IpSEmPN/NT3DGAEmIePQYIEJLLs= sha384-53StQWuVbn6figscdDC3xV00aYCPEz3srBdV/QGSXw3f19og3Tq2wTRe0vJqRTEO sha512-X9O+2f1ty1rzBJOC8AXBnuNUdyJg0m8xMKmbt9I3Vu/UOWmSg5zG+dtnje4wAZrKtkopz/PEDClHZ1LXx5IeOw==" crossorigin="anonymous"></script>
+ 
+    <!-- Moment JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.js"></script>
+ 
 
     
 
-    <script src="./assets/javascript/source.js"></script>
+    <!-- Foundation's CSS -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/foundation-sites@6.5.1/dist/css/foundation.min.css" integrity="sha256-1mcRjtAxlSjp6XJBgrBeeCORfBp/ppyX4tsvpQVCcpA= sha384-b5S5X654rX3Wo6z5/hnQ4GBmKuIJKMPwrJXn52ypjztlnDK2w9+9hSMBz/asy9Gw sha512-M1VveR2JGzpgWHb0elGqPTltHK3xbvu3Brgjfg4cg5ZNtyyApxw/45yHYsZ/rCVbfoO5MSZxB241wWq642jLtA==" crossorigin="anonymous">
+
+    
+    <!-- Our CSS -->
+    <link rel="stylesheet" type="text/css" href="assets/css/styles.css">
+
 </head>
 
 <body>
 
     <div class="container_header">
         <div class="mainLogo"
-            <img src="./assets/images/pexels-photo-258444-train-landscape.jpeg" alt="Train in far landscape">
+            <img src="/assets/images/pexels-photo-258444-train-landscape.jpeg" alt="Train in far landscape">
             <h2><div class="centered">Magical Train Station</div></h2>
         </div>
     </div>
@@ -39,7 +52,7 @@
         </div> 
         
         <div class="card-section">
-            <table class="scroll">
+            <table class="scroll" id="userData">
                 <thead>
                     <tr>
                     <th width="300">Train Name</th>
@@ -59,8 +72,8 @@
                     <td>x</td>
                     <td width="200">
                         <div class="stacked-for-medium button-group">
-                        <button class="button updateInfo">Update</button>
-                        <button class="button removeInfo">Remove</button>
+                        <button class="button updateInfo disabled" aria-disabled>Update</button>
+                        <button class="button removeInfo disabled" aria-disabled>Remove</button>
                         </div>
                     </td>
                     </tr>
@@ -68,7 +81,7 @@
                 </tbody>
 
                 
-                <tbody id="userData">
+                <!-- <tbody id="userData">
                       <!--  User's entered data goes below -->
                 </tbody>
             </table>
@@ -89,28 +102,28 @@
             <form>
                 <div class="grid-x grid-padding-x">
                     <div class="small-3 cell">
-                    <label for="right-label" class="text-right">Train Name</label>
+                    <label for="middle-label" class="text-right middle">Train Name</label>
                     </div>
                     <div class="small-9 cell">
-                    <div id="trainName"><input type="text" id="right-label" placeholder="Right-aligned text input"></div>
-                    </div>
+                    <input type="text" class="trainName" id="right-label" placeholder="Enter the train's name e.g. Hogwarts Express"></div>
+                    
                 </div>
 
                 <div class="grid-x grid-padding-x">
                     <div class="small-3 cell">
-                    <label for="right-label" class="text-right">Destination</label>
+                    <label for="middle-label" class="text-right middle">Destination</label>
                     </div>
                     <div class="small-9 cell">
-                    <div id="trainDest"><input type="text" id="right-label" placeholder="Right-aligned text input"></div>
-                    </div>
+                    <input class="trainDest" type="text" id="right-label" placeholder="City, State"></div>
+                    
                 </div>
 
                 <div class="grid-x grid-padding-x">
                     <div class="small-3 cell">
-                    <label for="right-label" class="text-right">First train time</label>
+                    <label for="middle-label" class="text-right middle">First train time</label>
                     </div>
                     <div class="small-9 cell">
-                    <div id="firstTrain"><input type="text" id="right-label" placeholder="Right-aligned text input" aria-describedby="firstTrainHelpText"></div>
+                    <input class="firstTrain" type="text" id="right-label" placeholder="e.g. 2030" aria-describedby="firstTrainHelpText">
                     <p class="help-text" class="firstTrainHelpText">(in military time - HH:mm)</p>
                 </div>
                 </div>
@@ -121,8 +134,7 @@
                     <label for="middle-label" class="text-right middle">Frequency (in mins.)</label>
                     </div>
                     <div class="small-9 cell">
-                    <div id="trainFreq"><input type="text" id="middle-label" placeholder="Right- and middle-aligned text input"></div>
-                    </div>
+                    <input class="trainFreq" type="text" id="middle-label" placeholder="e.g. 30"></div>
                 </div>
 
                 <button class="button submitButton" type="submit">Submit</button>
@@ -133,11 +145,10 @@
     </div>
         
     
-
+    <!-- Our JS -->
+    <script src="assets/javascript/source.js"></script>
     
 
-    <!-- Compressed JavaScript -->
-    <script src="https://cdn.jsdelivr.net/npm/foundation-sites@6.5.1/dist/js/foundation.min.js" integrity="sha256-WUKHnLrIrx8dew//IpSEmPN/NT3DGAEmIePQYIEJLLs= sha384-53StQWuVbn6figscdDC3xV00aYCPEz3srBdV/QGSXw3f19og3Tq2wTRe0vJqRTEO sha512-X9O+2f1ty1rzBJOC8AXBnuNUdyJg0m8xMKmbt9I3Vu/UOWmSg5zG+dtnje4wAZrKtkopz/PEDClHZ1LXx5IeOw==" crossorigin="anonymous"></script>
 </body>
 
 </html>
