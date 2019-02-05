@@ -120,10 +120,10 @@
 
                 <div class="grid-x grid-padding-x">
                     <div class="small-3 cell">
-                    <label for="middle-label" class="text-right middle">First train time</label>
+                    <label for="middle-label" class="text-right middle" placeholder="Frequency in mins. (e.g. 40)">First train time</label>
                     </div>
                     <div class="small-9 cell">
-                    <input class="firstTrain" type="text" id="right-label" placeholder="e.g. 2030" aria-describedby="firstTrainHelpText">
+                    <input class="firstTrain" min="0001" max="2400" type="number" id="right-label" placeholder="e.g. 2030" aria-describedby="firstTrainHelpText">
                     <p class="help-text" class="firstTrainHelpText">(in military time - HH:mm)</p>
                 </div>
                 </div>
@@ -134,7 +134,7 @@
                     <label for="middle-label" class="text-right middle">Frequency (in mins.)</label>
                     </div>
                     <div class="small-9 cell">
-                    <input class="trainFreq" type="text" id="middle-label" placeholder="e.g. 30"></div>
+                    <input class="trainFreq" min="1" type="number" min="1" id="middle-label" placeholder="e.g. 30"></div>
                 </div>
 
                 <button class="button submitButton" type="submit">Submit</button>
