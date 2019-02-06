@@ -15,6 +15,11 @@ Will also need CSS Styling defined for invalid feedback.
 
 // $(document).ready(function() {
 
+$(".trainName").text("AMTRAK");
+$("trainDest").text("Glendale, CA");
+$(".firstTrain").text(parseInt(1000));
+$(".trainFreq").text(parseInt(30));
+
 // Initialize Firebase
 var config = {
 apiKey: "AIzaSyBSE0xwxGKXtE-1WjKmChoUd9M2LGyVWas",
@@ -50,12 +55,11 @@ $(".submitButton").on("click", function() {
     var addedTrain = {
          name: trainName,
          destination: trainDest,
-         time: firstTrain,   /// time = firstTrain      ____________________________________________________________
+         time: firstTrain,
          frequency: trainFreq
         }                                                  
 
-    
-        // Works! - Improvements to follow
+        // Improvements to follow
         // Input validation 
         if (trainName !== "" && trainDest !== "" && firstTrain.length == 4 && trainFreq !== "") {
             database.push(addedTrain);
@@ -64,41 +68,18 @@ $(".submitButton").on("click", function() {
             return false;  
         }
 
-        // if (trainName !== "" && trainDest != "" &&
-        // (firstTrain >= 1 && firstTrain <= 2400)  && trainFreq != "") {
-
-    // As long as the input boxes are not empty
-    // we will push data from user to database.
-    // database.ref().push({
-    //             name: trainName,
-    //             destination: trainDest,   //// 2/3 should be trainDest: trainDest,
-    //             time: firstTrain,
-    //             frequency: trainFreq,
-           //Push data to database
-        // console.log("User did not enter a valid data!");
-        // return false;
-                   
-    // console.log(database);
-    //    } else {
-    // Will figure out how to let user know 
-    // Note: Think of accessibility. Red text as well as red think border...
-    //    database.push(addedTrain); 
-     //   }
-    // console.log(database); // Check to see values in database
-    // $("input").val("");     // Empty user input area
-
     $(".trainName").val().trim(); 
     $(".trainDest").val().trim();
     $(".firstTrain").val().trim();
     $(".trainFreq").val().trim();
 
-    return false; // ------------------------------------ Delete it???
+    return false;
 });
 
-var trainName = "";           //  var trainName = ""; 
-var trainDest = "";            // var trainDest = "";
-var firstTrain = "";           // var firstTrain = "";
-var frequency = "";            // var trainFreq = "";
+var trainName = "";           
+var trainDest = "";            
+var firstTrain = "";          
+var frequency = "";         
 
 database.on("child_added", function(childSnapshot) {
     console.log(childSnapshot.val());    
@@ -113,14 +94,13 @@ database.on("child_added", function(childSnapshot) {
     console.log(trainName, trainDest, firstTrain, frequency);
 
     // Format the time
-
     var frequency = parseInt(frequency);
     var currentTime = moment();
 
     // We cam shorten b/c of our earlier ... var data = childSnapshot.val();
     var convertDate = moment(data.time, "HHmm").subtract(1, "years");
 
-    var trainTime = moment(convertDate).format("HHmm"); // ********* CONSIDER CHANGING
+    var trainTime = moment(convertDate).format("HHmm"); // 
 
     // Calculate difference
     var convertTime = moment(trainTime, "HHmm").subtract(1, "years");
@@ -139,27 +119,24 @@ database.on("child_added", function(childSnapshot) {
 
     var displayArriving = moment(nextTrain).format("HHmm");
 
-
-
-    
     // Appending data ...
     $("#userData").append(
         "<tr><td width='300'>" + data.name +
         "<td  width='300'>" + trainDest +
-        "<td width='100'>" + data.frequency +         // <----------Need to update to frequency?
-        "<td width='100'>" + displayArriving +          // <----------Need to update tArrival
+        "<td width='100'>" + data.frequency +         
+        "<td width='100'>" + displayArriving +          
         "<td width='100'>" + timeAway + "</td>" +
         //     <Update> & <Remove> Buttons
         "<td width='200'><div class='stacked-for-medium button-group'>" +
-        "<button class='button updateInfo'>Update</button>" +
-        "<button class='button removeInfo'>Remove</button></div></td>"
+        "<button class='button updateInfo disabled' aria-disabled>Update</button>" +
+        "<button class='button removeInfo disabled' aria-disabled>Remove</button></div></td>"
     );
     
     console.log(time);
     console.log(timeAway);
 
     // BONUS: Update data every 1 minutes
-    //setInterval('window.location.reload()', 60 * 1000);  // 1000 = 1 milliseconds 
+    setInterval('window.location.reload()', 60 * 1000);  // 1000 = 1 milliseconds 
 });
 
 // }); // End of document.ready(f(x))
