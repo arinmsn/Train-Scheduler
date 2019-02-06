@@ -7,7 +7,7 @@ next arrival time. The app will calculate the next arrival time.
 In addition, once user arrives, app will re-load every minute.
 
 ```
-[Visit the live app page](Visit%20the%20live%20app%20page%20and%20try%20it%20yourself!) and try it yourself!
+[Visit the live app page](https://arinmsn.github.io/Train-Scheduler/) and try it yourself!
 
 ## Languages/Frameworks Used
 ```
