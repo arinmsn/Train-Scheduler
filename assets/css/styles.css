@@ -90,6 +90,8 @@ table.tr {
 
 img {
     margin: 0 auto;
+    width: 60%;
+    height: 75%;
 }
 
 * {
@@ -98,5 +100,64 @@ img {
 }
 
 h2 {
-    font-size: 80px;
+    font-size: 4vw;
 }
+
+@media
+only screen and (max-width: 760px),
+(min-device-width: 768px) and (max-device-width: 1024px) {
+    h2 {
+      font-size: 1.5em;
+    }
+
+    img {
+        width: auto;
+        height: auto;
+    }
+
+    * {
+        margin: 5px;
+        padding: 5px;
+    }
+
+    table, thead, tbody, th, td, tr { display: block};
+
+    thead tr {
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+    }
+
+    tr { border: 1px solid #ccc;}
+
+    td {
+        /* Behave like a "row" */
+        border: none;
+        border-bottom: 1px solid #eee;
+        position: relative;
+        padding-left: 50%;
+    }
+
+    td:before {
+        /* Now like a table header */
+        position: absolute;
+        /* Top/Left values mimic padding */
+        top: 6px;
+        left: 6px;
+        width: 45%;
+        padding-right: 10px;
+        white-space: nowrap;
+    }
+
+    /*
+	Label the data
+	*/
+	td:nth-of-type(1):before { content: "Train Name"; }
+	td:nth-of-type(2):before { content: "Destination"; }
+	td:nth-of-type(3):before { content: "Frequency (mins.)"; }
+	td:nth-of-type(4):before { content: "Next Arrival"; }
+	td:nth-of-type(5):before { content: "Minutes Away"; }
+	td:nth-of-type(6):before { content: "Update Train's Info"; }
+    
+}   
+  

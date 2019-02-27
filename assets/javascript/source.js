@@ -13,7 +13,7 @@ Will also need CSS Styling defined for invalid feedback.
 
 */
 
-// $(document).ready(function() {
+$(document).ready(function() {
 
 $(".trainName").text("AMTRAK");
 $("trainDest").text("Glendale, CA");
@@ -76,6 +76,21 @@ $(".submitButton").on("click", function() {
     return false;
 });
 
+/*  Pressing 'Remove' button deletes that specific row  */
+
+$('body').on('click', '.removeInfoButton', function() {
+    // console.log("Testing ........ Remove_Info Button is clicked!");
+    var getRow = $(this).closest('tr');
+    var getRowName = $(':first-of-type', getRow).html();
+    var deleteThisKey = $(this).attr('data-key');
+
+    getRow.remove();
+    database.ref().once("value", function(child){
+    firebase.database.ref().childS(deleteThisKey).remove();
+    });
+});
+
+
 var trainName = "";           
 var trainDest = "";            
 var firstTrain = "";          
@@ -128,8 +143,9 @@ database.on("child_added", function(childSnapshot) {
         "<td width='100'>" + timeAway + "</td>" +
         //     <Update> & <Remove> Buttons
         "<td width='200'><div class='stacked-for-medium button-group'>" +
-        "<button class='button updateInfo disabled' aria-disabled>Update</button>" +
-        "<button class='button removeInfo disabled' aria-disabled>Remove</button></div></td>"
+        "<button class='button updateInfoButton disabled' aria-disabled>Update</button>" +
+        "<button class='button removeInfoButton'>Remove</button></div></td>"
+        // "<button class='button removeInfo >>disabled<<' aria-disabled>Remove</button></div></td>"
     );
     
     console.log(time);
@@ -139,5 +155,5 @@ database.on("child_added", function(childSnapshot) {
     setInterval('window.location.reload()', 60 * 1000);  // 1000 = 1 milliseconds 
 });
 
-// }); // End of document.ready(f(x))
+}); // End of document.ready(f(x))
 
