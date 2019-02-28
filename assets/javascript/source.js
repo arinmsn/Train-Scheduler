@@ -13,92 +13,83 @@ Will also need CSS Styling defined for invalid feedback.
 
 */
 
-$(document).ready(function() {
+$(document).ready(function () {
 
-$(".trainName").text("AMTRAK");
-$("trainDest").text("Glendale, CA");
-$(".firstTrain").text(parseInt(1000));
-$(".trainFreq").text(parseInt(30));
+    $(".trainName").text("AMTRAK");
+    $("trainDest").text("Glendale, CA");
+    $(".firstTrain").text(parseInt(1000));
+    $(".trainFreq").text(parseInt(30));
 
-// Initialize Firebase
-var config = {
-apiKey: "AIzaSyBSE0xwxGKXtE-1WjKmChoUd9M2LGyVWas",
-authDomain: "train-scheduler-d4447.firebaseapp.com",
-databaseURL: "https://train-scheduler-d4447.firebaseio.com",
-projectId: "train-scheduler-d4447",
-storageBucket: "train-scheduler-d4447.appspot.com",  
-messagingSenderId: "567765713879"
-};
+    // Initialize Firebase
+    var config = {
+        apiKey: "AIzaSyBSE0xwxGKXtE-1WjKmChoUd9M2LGyVWas",
+        authDomain: "train-scheduler-d4447.firebaseapp.com",
+        databaseURL: "https://train-scheduler-d4447.firebaseio.com",
+        projectId: "train-scheduler-d4447",
+        storageBucket: "train-scheduler-d4447.appspot.com",
+        messagingSenderId: "567765713879"
+    };
 
-firebase.initializeApp(config);
+    firebase.initializeApp(config);
+    var database = firebase.database();
+    // var database = firebase.database().ref();   /////// added .ref()
+    var index = 0;
 
-var database = firebase.database().ref();   /////// added .ref()
+    // Collect user's input
+    $(".submitButton").on("click", function () {
+        console.log("Click!!");
+        event.preventDefault();
 
-// Collect user's input
-$(".submitButton").on("click", function() {
-    console.log("Click!!");
-    event.preventDefault();
+        var trainName = $(".trainName").val().trim();
+        var trainDest = $(".trainDest").val().trim();// Train's destination
+        var firstTrain = $(".firstTrain").val().trim();
+        var trainFreq = $(".trainFreq").val().trim();// Train Frequency in mins.
 
-    var trainName = $(".trainName").val().trim(); 
-    var trainDest = $(".trainDest").val().trim();// Train's destination
-    var firstTrain = $(".firstTrain").val().trim(); 
-    var trainFreq = $(".trainFreq").val().trim();// Train Frequency in mins.
+        console.log("---- Collected user's data ----");
+        console.log(trainName);
+        console.log(trainDest);
+        console.log(firstTrain);
+        console.log(trainFreq);
+        console.log("---- End ----");
 
-    console.log("---- Collected user's data ----");
-    console.log(trainName);
-    console.log(trainDest);
-    console.log(firstTrain);
-    console.log(trainFreq);
-    console.log("---- End ----");
-
-    //Local temporary storage
-    var addedTrain = {
-         name: trainName,
-         destination: trainDest,
-         time: firstTrain,
-         frequency: trainFreq
-        }                                                  
+        //Local temporary storage
+        var addedTrain = {
+            name: trainName,
+            destination: trainDest,
+            time: firstTrain,
+            frequency: trainFreq
+        }
 
         // Improvements to follow
         // Input validation 
         if (trainName !== "" && trainDest !== "" && firstTrain.length == 4 && trainFreq !== "") {
-            database.push(addedTrain);
+            database.ref().push(addedTrain);
         } else {
             $("input").val("");
-            return false;  
+            return false;
         }
 
-    $(".trainName").val().trim(); 
-    $(".trainDest").val().trim();
-    $(".firstTrain").val().trim();
-    $(".trainFreq").val().trim();
+        $(".trainName").val().trim();
+        $(".trainDest").val().trim();
+        $(".firstTrain").val().trim();
+        $(".trainFreq").val().trim();
 
-    return false;
+        return false;
+    });
 
-
-
-
-
-    
-});
-
-
-
-
-var trainName = "";           
-var trainDest = "";            
-var firstTrain = "";          
-var frequency = "";         
-
-    database.on("child_added", function(childSnapshot) {
-        console.log("ChildSnapshot  :" + childSnapshot.val());    
+    var trainName = "";
+    var trainDest = "";
+    var firstTrain = "";
+    var frequency = "";
+    database.ref().on("child_added", function (childSnapshot) {
+        // database.on("child_added", function(childSnapshot) {
+        console.log("ChildSnapshot  :" + childSnapshot.val());
 
         var data = childSnapshot.val();
         var name = data.name;
-        var trainDest = data.destination; 
+        var trainDest = data.destination;
         var time = data.time;
-        var frequency = data.frequency;  
-        var keyValue = childSnapshot.key;
+        var frequency = data.frequency;
 
         console.log(trainName, trainDest, firstTrain, frequency);
 
@@ -113,7 +104,7 @@ var frequency = "";
 
         // Calculate difference
         var convertTime = moment(trainTime, "HHmm").subtract(1, "years");
-        var timeDiff = moment().diff(moment(convertTime), "minutes");      
+        var timeDiff = moment().diff(moment(convertTime), "minutes");
         console.log("Time difference: " + timeDiff);
 
         // Calculate remainder
@@ -122,28 +113,28 @@ var frequency = "";
 
         // Train arrives in ... (mins.)
         var timeAway = frequency - timeRemain;
-        console.log("Next train arrives in " +timeAway+ " minutes.");
+        console.log("Next train arrives in " + timeAway + " minutes.");
 
         var nextTrain = moment().add(timeAway, "minutes");
 
         var displayArriving = moment(nextTrain).format("HHmm");
 
-        var keyValue = childSnapshot.key;
+        // var keyValue = childSnapshot.key;
         // Appending data ...
         var userRow = $("#userData").append(
-            "<tr><td width='300' data-key = " + keyValue + ">" + data.name +
+            "<tr><td width='300'>" + data.name +
             "<td  width='300'>" + trainDest +
-            "<td width='100'>" + data.frequency +         
-            "<td width='100'>" + displayArriving +          
+            "<td width='100'>" + data.frequency +
+            "<td width='100'>" + displayArriving +
             "<td width='100'>" + timeAway + "</td>" +
             //     <Update> & <Remove> Buttons
             "<td width='200'><div class='stacked-for-medium button-group'>" +
-            "<button class='button updateInfoButton disabled' aria-disabled data-key= " +keyValue+ ">Update</button>" +
-            "<button class='button removeInfoButton'>Remove</button data-key= " +keyValue+ "></div></td>"
+            "<button class='button updateInfoButton disabled' aria-disabled data-key='childSnapshot.key' data-index='index'>Update</button>" +
+            "<button class='button removeInfoButton'>Remove</button data-key='childSnapshot.key' data-index='index'></div></td>"
             // "<button class='button removeInfo >>disabled<<' aria-disabled>Remove</button></div></td>"
         );
-        
-        userRow.data('data-key', keyValue) // to server
+        userRow.addClass("row-" + "index");
+        index++;
 
         console.log(time);
         console.log(timeAway);
@@ -151,29 +142,17 @@ var frequency = "";
         // BONUS: Update data every 1 minutes
         setInterval('window.location.reload()', 60 * 1000);  // 1000 = 1 milliseconds 
 
-    });  
-
-    //  Pressing 'Remove' button deletes that specific row  
-    $(document).on('click', '.removeInfoButton', function(data) {
-        var database = firebase.database().ref();
-        var getRow = $(this).closest('tr');     //
-        var getRowName = $(":first-child", getRow).html();  //
-        let key = $(this).data('data-key');  
-        var rowMe = $(this).data("data-key", )
-        $(this).closest('tr').remove();
-
-        // // getRow.remove();
-        // // firebase.database().ref(key).set(null);  //.set(null)
-        // // firebase.database().ref(key).set(null);
-        // firebase.database().ref(key).once("value", function(data) {
-        //     firebase.database().ref().childSnapshot(key).remove();
-        // }) 
-        database.ref(key).remove();
-
-
     });
-    
-       
+
+    function removeRow() {
+        $(".row-" + $(this).attr("data-index")).remove();
+        database.ref().child($(this).attr("data-key")).remove();
+    }
+
+    $(document).on('click', '.removeInfoButton', removeRow);
+
+
+
 
 
 }); // End of document.ready(f(x))
