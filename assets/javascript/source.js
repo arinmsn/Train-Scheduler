@@ -74,21 +74,15 @@ $(".submitButton").on("click", function() {
     $(".trainFreq").val().trim();
 
     return false;
+
+
+
+
+
+    
 });
 
-/*  Pressing 'Remove' button deletes that specific row  */
 
-$('body').on('click', '.removeInfoButton', function() {
-    // console.log("Testing ........ Remove_Info Button is clicked!");
-    var getRow = $(this).closest('tr');
-    var getRowName = $(':first-of-type', getRow).html();
-    var deleteThisKey = $(this).attr('data-key');
-
-    getRow.remove();
-    database.ref().once("value", function(child){
-    firebase.database.ref().childS(deleteThisKey).remove();
-    });
-});
 
 
 var trainName = "";           
@@ -96,64 +90,90 @@ var trainDest = "";
 var firstTrain = "";          
 var frequency = "";         
 
-database.on("child_added", function(childSnapshot) {
-    console.log(childSnapshot.val());    
+    database.on("child_added", function(childSnapshot) {
+        console.log("ChildSnapshot  :" + childSnapshot.val());    
 
-    var data = childSnapshot.val();
+        var data = childSnapshot.val();
+        var name = data.name;
+        var trainDest = data.destination; 
+        var time = data.time;
+        var frequency = data.frequency;  
+        var keyValue = childSnapshot.key;
 
-    var name = data.name;
-    var trainDest = data.destination; 
-    var time = data.time;
-    var frequency = data.frequency;  
+        console.log(trainName, trainDest, firstTrain, frequency);
 
-    console.log(trainName, trainDest, firstTrain, frequency);
+        // Format the time
+        var frequency = parseInt(frequency);
+        var currentTime = moment();
 
-    // Format the time
-    var frequency = parseInt(frequency);
-    var currentTime = moment();
+        // We cam shorten b/c of our earlier ... var data = childSnapshot.val();
+        var convertDate = moment(data.time, "HHmm").subtract(1, "years");
 
-    // We cam shorten b/c of our earlier ... var data = childSnapshot.val();
-    var convertDate = moment(data.time, "HHmm").subtract(1, "years");
+        var trainTime = moment(convertDate).format("HHmm"); // 
 
-    var trainTime = moment(convertDate).format("HHmm"); // 
+        // Calculate difference
+        var convertTime = moment(trainTime, "HHmm").subtract(1, "years");
+        var timeDiff = moment().diff(moment(convertTime), "minutes");      
+        console.log("Time difference: " + timeDiff);
 
-    // Calculate difference
-    var convertTime = moment(trainTime, "HHmm").subtract(1, "years");
-    var timeDiff = moment().diff(moment(convertTime), "minutes");      
-    console.log("Time difference: " + timeDiff);
+        // Calculate remainder
+        var timeRemain = timeDiff % frequency;
+        console.log("Remaining time: " + timeRemain);
 
-    // Calculate remainder
-    var timeRemain = timeDiff % frequency;
-    console.log("Remaining time: " + timeRemain);
+        // Train arrives in ... (mins.)
+        var timeAway = frequency - timeRemain;
+        console.log("Next train arrives in " +timeAway+ " minutes.");
 
-    // Train arrives in ... (mins.)
-    var timeAway = frequency - timeRemain;
-    console.log("Next train arrives in " +timeAway+ " minutes.");
+        var nextTrain = moment().add(timeAway, "minutes");
 
-    var nextTrain = moment().add(timeAway, "minutes");
+        var displayArriving = moment(nextTrain).format("HHmm");
 
-    var displayArriving = moment(nextTrain).format("HHmm");
+        var keyValue = childSnapshot.key;
+        // Appending data ...
+        var userRow = $("#userData").append(
+            "<tr><td width='300' data-key = " + keyValue + ">" + data.name +
+            "<td  width='300'>" + trainDest +
+            "<td width='100'>" + data.frequency +         
+            "<td width='100'>" + displayArriving +          
+            "<td width='100'>" + timeAway + "</td>" +
+            //     <Update> & <Remove> Buttons
+            "<td width='200'><div class='stacked-for-medium button-group'>" +
+            "<button class='button updateInfoButton disabled' aria-disabled data-key= " +keyValue+ ">Update</button>" +
+            "<button class='button removeInfoButton'>Remove</button data-key= " +keyValue+ "></div></td>"
+            // "<button class='button removeInfo >>disabled<<' aria-disabled>Remove</button></div></td>"
+        );
+        
+        userRow.data('data-key', keyValue) // to server
 
-    // Appending data ...
-    $("#userData").append(
-        "<tr><td width='300'>" + data.name +
-        "<td  width='300'>" + trainDest +
-        "<td width='100'>" + data.frequency +         
-        "<td width='100'>" + displayArriving +          
-        "<td width='100'>" + timeAway + "</td>" +
-        //     <Update> & <Remove> Buttons
-        "<td width='200'><div class='stacked-for-medium button-group'>" +
-        "<button class='button updateInfoButton disabled' aria-disabled>Update</button>" +
-        "<button class='button removeInfoButton'>Remove</button></div></td>"
-        // "<button class='button removeInfo >>disabled<<' aria-disabled>Remove</button></div></td>"
-    );
+        console.log(time);
+        console.log(timeAway);
+
+        // BONUS: Update data every 1 minutes
+        setInterval('window.location.reload()', 60 * 1000);  // 1000 = 1 milliseconds 
+
+    });  
+
+    //  Pressing 'Remove' button deletes that specific row  
+    $(document).on('click', '.removeInfoButton', function(data) {
+        var database = firebase.database().ref();
+        var getRow = $(this).closest('tr');     //
+        var getRowName = $(":first-child", getRow).html();  //
+        let key = $(this).data('data-key');  
+        var rowMe = $(this).data("data-key", )
+        $(this).closest('tr').remove();
+
+        // // getRow.remove();
+        // // firebase.database().ref(key).set(null);  //.set(null)
+        // // firebase.database().ref(key).set(null);
+        // firebase.database().ref(key).once("value", function(data) {
+        //     firebase.database().ref().childSnapshot(key).remove();
+        // }) 
+        database.ref(key).remove();
+
+
+    });
     
-    console.log(time);
-    console.log(timeAway);
+       
 
-    // BONUS: Update data every 1 minutes
-    setInterval('window.location.reload()', 60 * 1000);  // 1000 = 1 milliseconds 
-});
 
 }); // End of document.ready(f(x))
-
