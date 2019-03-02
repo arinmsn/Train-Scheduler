@@ -1,20 +1,6 @@
-/* --- Improvements ---
-
-1. Dynamically add 'data-name' of 'item-' + dataCount so we can
-recall and -Update- or -Remove- specific entries.
-set dataCount = 0;
-
-2. Gray out the buttons for -Update- or -Remove-. (Related to #1)
-
-3. Add authentication (Git or Google)
-
-4. Input Validation. Be mindeful of users with disabilities (some cannot see red border!)
-Will also need CSS Styling defined for invalid feedback.
-
-*/
-
 $(document).ready(function () {
-
+    var index = 0;
+    
     $(".trainName").text("AMTRAK");
     $("trainDest").text("Glendale, CA");
     $(".firstTrain").text(parseInt(1000));
@@ -33,11 +19,10 @@ $(document).ready(function () {
     firebase.initializeApp(config);
     var database = firebase.database();
     // var database = firebase.database().ref();   /////// added .ref()
-    var index = 0;
+    
 
     // Collect user's input
     $(".submitButton").on("click", function () {
-        console.log("Click!!");
         event.preventDefault();
 
         var trainName = $(".trainName").val().trim();
@@ -60,8 +45,6 @@ $(document).ready(function () {
             frequency: trainFreq
         }
 
-        // Improvements to follow
-        // Input validation 
         if (trainName !== "" && trainDest !== "" && firstTrain.length == 4 && trainFreq !== "") {
             database.ref().push(addedTrain);
         } else {
@@ -81,9 +64,18 @@ $(document).ready(function () {
     var trainDest = "";
     var firstTrain = "";
     var frequency = "";
-    database.ref().on("child_added", function (childSnapshot) {
-        // database.on("child_added", function(childSnapshot) {
-        console.log("ChildSnapshot  :" + childSnapshot.val());
+
+    database.ref().orderByChild("dateAdded").on("child_added", function(childSnapshot) {
+        //database.ref().on("child_added", function (childSnapshot) {
+        // var stackedButtons = "<td width='200'><div class='stacked-for-medium button-group'>"
+        var updatedInfoButton = $("<button>").html("<span>Update</span>").addClass("updateInfoButton'")
+        .attr("data-index", index).attr("data-key", childSnapshot.key);
+
+        var removeInfoButton  = $("<button>").html("<span>Remove</button>").addClass("removeInfoButton")
+        .attr("data-index", index).attr("data-key", childSnapshot.key);
+
+        // var     "<button class='button updateInfoButton'>Update</button>" +
+        // var     "<button class='button removeInfoButton'>Remove</button></div></td>"
 
         var data = childSnapshot.val();
         var name = data.name;
@@ -121,19 +113,39 @@ $(document).ready(function () {
 
         // var keyValue = childSnapshot.key;
         // Appending data ...
-        var userRow = $("#userData").append(
-            "<tr><td width='300'>" + data.name +
-            "<td  width='300'>" + trainDest +
-            "<td width='100'>" + data.frequency +
-            "<td width='100'>" + displayArriving +
-            "<td width='100'>" + timeAway + "</td>" +
+
+        var userRow = $("<tr>");
+        userRow.addClass("row-" + index); // will help us delete specific row when user presses "remove" button
+
+        var col_1 = $("<td>").text(data.name);
+        var col_2 = $("<td>").text(trainDest);
+        var col_3 = $("<td>").text(data.frequency);
+        var col_4 = $("<td>").text(displayArriving);
+        var col_5 = $("<td>").text(timeAway);
+        var col_6 = $("<td>").append(updatedInfoButton);
+        var col_7 = $("<td>").append(removeInfoButton);
+
+        userRow
+            .append(col_1)
+            .append(col_2)
+            .append(col_3)
+            .append(col_4)
+            .append(col_5)
+            .append(col_6)
+            .append(col_7);
+        // var userRow = $("#userData").append(
+        //     "<tr><td>" + data.name +
+        //     "<td>" + trainDest +
+        //     "<td>" + data.frequency +
+        //     "<td>" + displayArriving +
+        //     "<td>" + timeAway + "</td>" +
             //     <Update> & <Remove> Buttons
-            "<td width='200'><div class='stacked-for-medium button-group'>" +
-            "<button class='button updateInfoButton disabled' aria-disabled data-key='childSnapshot.key' data-index='index'>Update</button>" +
-            "<button class='button removeInfoButton'>Remove</button data-key='childSnapshot.key' data-index='index'></div></td>"
+            
             // "<button class='button removeInfo >>disabled<<' aria-disabled>Remove</button></div></td>"
-        );
-        userRow.addClass("row-" + "index");
+        // );
+
+        $("#userData").append(userRow);
+        // userRow.addClass("row-" + "index");
         index++;
 
         console.log(time);
@@ -142,8 +154,6 @@ $(document).ready(function () {
         // BONUS: Update data every 1 minutes
         setInterval('window.location.reload()', 60 * 1000);  // 1000 = 1 milliseconds 
 
-    });
-
     function removeRow() {
         $(".row-" + $(this).attr("data-index")).remove();
         database.ref().child($(this).attr("data-key")).remove();
@@ -151,8 +161,12 @@ $(document).ready(function () {
 
     $(document).on('click', '.removeInfoButton', removeRow);
 
+    });
+
+    
 
 
 
 
-}); // End of document.ready(f(x))
+
+}); // End of document.ready()
